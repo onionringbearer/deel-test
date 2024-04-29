@@ -24,12 +24,26 @@ const DemoPage = (): JSX.Element => {
           <h3>Autocomplete from External Data Source</h3>
           <p>
             Basic autocomplete demo with an external data source, from a
-            locahost NodeJs in our case.{" "}
+            locahost NodeJs in our case.
           </p>
         </section>
         <Autocomplete
           id="autocomplete"
           sourceUrl={demoFruitsUrl}
+          placeholder="Type to search for a fruit..."
+        />
+      </article>
+      <article>
+        <section>
+          <h3>Autocomplete with Minimum Required Input</h3>
+          <p>
+            Basic autocomplete demo with minimum required input of 3 characters.
+          </p>
+        </section>
+        <Autocomplete
+          id="autocomplete"
+          data={fruits}
+          minSearchLength={3}
           placeholder="Type to search for a fruit..."
         />
       </article>

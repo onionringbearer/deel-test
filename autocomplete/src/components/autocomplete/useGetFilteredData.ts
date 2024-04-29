@@ -4,12 +4,14 @@ import { getFilteredData } from "../../api/api";
 type FilteredDataValues = {
   isLoading: boolean;
   filteredData: string[];
+  resetFilteredData: () => void;
 };
 
 const useGetFilteredData = (
   criteria: string,
   data: string[],
-  sourceUrl: string
+  sourceUrl: string,
+  minSearchLength = 0
 ): FilteredDataValues => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<string[]>([]);
@@ -36,15 +38,24 @@ const useGetFilteredData = (
     }
   }, [sourceUrl, criteria]);
 
+  const resetFilteredData = () => {
+    setFilteredData([]);
+  };
+
   useEffect(() => {
+    if (criteria.length < minSearchLength) {
+      setFilteredData([]);
+      return;
+    }
     if (sourceUrl) {
       fetchData();
     } else {
       filterLocalData(criteria);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criteria]);
 
-  return { isLoading, filteredData };
+  return { isLoading, filteredData, resetFilteredData };
 };
 
 export default useGetFilteredData;
