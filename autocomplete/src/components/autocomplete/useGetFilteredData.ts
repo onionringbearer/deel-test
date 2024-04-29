@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { getFilteredData } from "../../api/api";
 
 type FilteredDataValues = {
   isLoading: boolean;
@@ -14,7 +15,7 @@ const useGetFilteredData = (
   const [filteredData, setFilteredData] = useState<string[]>([]);
 
   const filterLocalData = useCallback(
-    async (value: string) => {
+    (value: string) => {
       const filtered =
         value.length > 0
           ? data.filter((item) =>
@@ -28,13 +29,12 @@ const useGetFilteredData = (
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(sourceUrl);
-      const data = await response.json();
+      const data = await getFilteredData(criteria, sourceUrl);
       setFilteredData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [sourceUrl]);
+  }, [sourceUrl, criteria]);
 
   useEffect(() => {
     if (sourceUrl) {
@@ -42,7 +42,7 @@ const useGetFilteredData = (
     } else {
       filterLocalData(criteria);
     }
-  }, [criteria, data, sourceUrl, filterLocalData, fetchData]);
+  }, [criteria]);
 
   return { isLoading, filteredData };
 };
