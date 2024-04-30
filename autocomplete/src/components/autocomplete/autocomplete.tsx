@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useGetFilteredData from "./useGetFilteredData";
 import SearchMatchHighlight from "../search-match-highlight/search-match-highlight";
 
@@ -10,8 +10,9 @@ type AutocompleteProps = Partial<AutocompleteConfig> & {
   id: string;
   data?: string[];
   sourceUrl?: string;
-  defaultValue?: string;
   placeholder?: string;
+  noDataText?: string;
+  loadingText?: string;
   onChange?: (value: string) => void;
   onSelect?: (value: string) => void;
 };
@@ -21,20 +22,26 @@ const Autocomplete = ({
   data = [],
   sourceUrl = "",
   placeholder = "Type to search...",
-  minSearchLength,
+  noDataText = "No matches found.",
+  loadingText = "Loading...",
+  minSearchLength = 0,
   onChange,
   onSelect,
 }: AutocompleteProps): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>("");
   const [isListVisible, setIsListVisible] = useState<boolean>(false);
-  const { filteredData } = useGetFilteredData(
+  const { filteredData, isLoading, error } = useGetFilteredData(
     inputValue,
     data,
     sourceUrl,
     minSearchLength
   );
 
-  useEffect(() => {}, [filteredData]);
+  const showNoDataText =
+    inputValue &&
+    inputValue.length >= minSearchLength &&
+    !isLoading &&
+    !filteredData.length;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -64,14 +71,18 @@ const Autocomplete = ({
         placeholder={placeholder}
         autoComplete="off"
       />
-      <div role="listbox">
-        {isListVisible &&
-          filteredData?.map((item) => (
-            <li key={item} onMouseDown={() => handleItemClick(item)}>
+      {isListVisible && (
+        <div role="listbox">
+          {isLoading && <i>{loadingText}</i>}
+          {showNoDataText && <i>{noDataText}</i>}
+          {filteredData?.map((item) => (
+            <li key={item} onClick={() => handleItemClick(item)}>
               <SearchMatchHighlight text={item} searchTerm={inputValue} />
             </li>
           ))}
-      </div>
+        </div>
+      )}
+      {error && <p>{error.message}</p>}
     </section>
   );
 };

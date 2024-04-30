@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { getFilteredData } from "../../api/api";
+import { AutocompleteError } from "./types";
 
 type FilteredDataValues = {
   isLoading: boolean;
   filteredData: string[];
+  error: AutocompleteError | null;
 };
+
+const httpErrorMessage = "Error getting data from server. Please try again.";
 
 const useGetFilteredData = (
   criteria: string,
@@ -14,6 +18,7 @@ const useGetFilteredData = (
 ): FilteredDataValues => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<string[]>([]);
+  const [error, setError] = useState<AutocompleteError | null>(null);
 
   const filterLocalData = useCallback(
     (value: string) => {
@@ -34,8 +39,9 @@ const useGetFilteredData = (
       const data = await getFilteredData(criteria, sourceUrl);
       setFilteredData(data);
     } catch (error) {
-      console.error("Error fetching data", error);
-      throw error;
+      console.error(httpErrorMessage, error);
+      setError({ message: httpErrorMessage, error });
+      setFilteredData([]);
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +60,7 @@ const useGetFilteredData = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criteria]);
 
-  return { isLoading, filteredData };
+  return { isLoading, filteredData, error };
 };
 
 export default useGetFilteredData;
