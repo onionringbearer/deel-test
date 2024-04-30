@@ -4,8 +4,6 @@ I provided a demo page with several examples of the autocomplete, along with a b
 
 The idea is to show that the autocomplete component created is seriously reusable and versatile, even if time did not really allow to cover everything a component of that nature should.
 
-For more details on the topic, please read the README.dev-notes.md.
-
 ## Running the app
 
 ### Server
