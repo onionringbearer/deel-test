@@ -21,7 +21,7 @@ const DemoArticle = ({
         <p>{description}</p>
         {instructions && <p className={styles.instructions}>{instructions}</p>}
       </header>
-      {children}
+      <section className={styles.content}>{children}</section>
     </article>
   );
 };

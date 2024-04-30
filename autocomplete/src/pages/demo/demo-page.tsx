@@ -94,8 +94,8 @@ const DemoPage = (): JSX.Element => {
           ) : (
             <Autocomplete id="autocomplete" data={[]} />
           )}
-          <button onClick={handleViewErrorClick}>
-            Click here to test error
+          <button className={styles.errorButton} onClick={handleViewErrorClick}>
+            Test error
           </button>
         </DemoArticle>
       </section>
