@@ -38,6 +38,7 @@ const useGetFilteredData = (
     try {
       const data = await getFilteredData(criteria, sourceUrl);
       setFilteredData(data);
+      setError(null);
     } catch (error) {
       console.error(httpErrorMessage, error);
       setError({ message: httpErrorMessage, error });
