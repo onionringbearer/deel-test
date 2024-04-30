@@ -13,7 +13,7 @@ const DemoArticle = ({
   description,
   instructions,
   children,
-}: PropsWithChildren<DemoArticleProps>) => {
+}: PropsWithChildren<DemoArticleProps>): JSX.Element => {
   return (
     <article className={styles.article}>
       <header>

@@ -22,13 +22,12 @@ const useGetFilteredData = (
 
   const filterLocalData = useCallback(
     (value: string) => {
+      // Since the option to fetch from an endpoint is available, this function
+      // is thought of as to be used for small data sets.
       const filtered =
-        value.length > 0
-          ? data.filter((item) =>
-              item.toLowerCase().includes(value.toLowerCase())
-            )
-          : [];
-      setFilteredData(filtered);
+        value.length > 0 &&
+        data.filter((item) => item.toLowerCase().includes(value.toLowerCase()));
+      setFilteredData(filtered || []);
     },
     [data]
   );
@@ -41,8 +40,8 @@ const useGetFilteredData = (
       setError(null);
     } catch (error) {
       console.error(httpErrorMessage, error);
-      setError({ message: httpErrorMessage, error });
       setFilteredData([]);
+      setError({ message: httpErrorMessage, error });
     } finally {
       setIsLoading(false);
     }
@@ -50,6 +49,7 @@ const useGetFilteredData = (
 
   useEffect(() => {
     if (criteria.length < minSearchLength) {
+      setError(null);
       setFilteredData([]);
       return;
     }

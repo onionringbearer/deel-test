@@ -2,12 +2,21 @@ import { useState } from "react";
 import Autocomplete from "../../components/autocomplete";
 import DemoArticle from "../../features/demo-article";
 import fruits from "../../mocks/fruits";
+import { demoFruitsUrl } from "../../config";
 
 import styles from "./demo-page.module.css";
 
-// Move to config file
-const demoFruitsUrl = "http://localhost:8080/fruits";
+/* 
+  This demo page component can be cleaned up by
 
+  1) making the demo article much more data driven and
+  providing a JSON object with the data for each demo, or
+  2) creating a separate component for each demo and rendering 
+  them in a loop over an array of demo objects.
+
+  However, for the short lived purpose of demoing this challenge, 
+  it's kept as is.
+*/
 const DemoPage = (): JSX.Element => {
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
@@ -24,7 +33,6 @@ const DemoPage = (): JSX.Element => {
           description="Basic autocomplete demo with a JSON array as data source."
         >
           <Autocomplete
-            id="autocomplete"
             data={fruits}
             placeholder="Type to search for a fruit..."
           />
@@ -37,7 +45,6 @@ const DemoPage = (): JSX.Element => {
             locahost Node server, in this case."
         >
           <Autocomplete
-            id="autocomplete"
             sourceUrl={demoFruitsUrl}
             placeholder="Type to search for a fruit..."
           />
@@ -50,7 +57,6 @@ const DemoPage = (): JSX.Element => {
             characters."
         >
           <Autocomplete
-            id="autocomplete"
             data={fruits}
             minSearchLength={3}
             placeholder="Type to search for a fruit..."
@@ -62,7 +68,7 @@ const DemoPage = (): JSX.Element => {
           title="Autocomplete with No Data"
           description="Basic autocomplete demo with no data available."
         >
-          <Autocomplete id="autocomplete" data={[]} />
+          <Autocomplete data={[]} />
         </DemoArticle>
 
         {/* Autocomplete with API Error */}
@@ -71,7 +77,6 @@ const DemoPage = (): JSX.Element => {
           description="Basic autocomplete demo with API error. 3 characters minimum."
         >
           <Autocomplete
-            id="autocomplete"
             sourceUrl={"does/not/exist"}
             minSearchLength={3}
             placeholder="Type to search for a fruit..."
@@ -86,7 +91,6 @@ const DemoPage = (): JSX.Element => {
         >
           {isErrorVisible ? (
             <Autocomplete
-              id="autocomplete"
               data={(() => {
                 throw new Error("Unexpected error");
               })()}
