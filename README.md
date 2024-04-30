@@ -1,14 +1,16 @@
 Welcome to my version of the challenge.
 
-I provide a demo page with several examples of the autocomplete, along with a brief description.
+I provided a demo page with several examples of the autocomplete, along with a brief description.
 
 The idea is to show that the autocomplete component created is seriously reusable and versatile, even if time did not really allow to cover everything a component of that nature should.
+
+For more details on the topic, please read the README.dev-notes.md.
 
 ## Running the app
 
 ### Server
 
-For some of the autocompletes in the demo page, a localhost endpoint is being used.
+For some of the autocompletes in the demo page, a localhost endpoint is needed.
 
 To run the server included for this purpose, go to the `/server` folder and run
 
@@ -39,8 +41,9 @@ The output of the last command will yield a localhost URL with a random port. Yo
 
 For this we need to simulate a slower connection. Using Chrome, open the Developer Tools and go to the Network tab.
 
-At the very top of the tab, there should a dropdown with 'No throttling' selected. Expand it and select 'Slow 3G'.
+At the very top of the tab, there should be a dropdown with 'No throttling' selected. Expand it and select 'Slow 3G'.
 
-Use the second dropdown to test the loading message while waiting for a response.
+Use the second autocomplete in the demo page to test the loading message while waiting for a response.
 
+###
 _This app was created using Node v21.7.1 and npm v10.5.0._
