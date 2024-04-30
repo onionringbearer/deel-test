@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useGetFilteredData from "./useGetFilteredData";
+import SearchMatchHighlight from "../search-match-highlight/search-match-highlight";
 
 type AutocompleteConfig = {
   minSearchLength: number;
@@ -26,7 +27,7 @@ const Autocomplete = ({
 }: AutocompleteProps): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>("");
   const [isListVisible, setIsListVisible] = useState<boolean>(false);
-  const { filteredData, resetFilteredData } = useGetFilteredData(
+  const { filteredData } = useGetFilteredData(
     inputValue,
     data,
     sourceUrl,
@@ -50,7 +51,6 @@ const Autocomplete = ({
     setInputValue(item);
     setIsListVisible(false);
     onSelect?.(item);
-    resetFilteredData();
   };
 
   return (
@@ -66,10 +66,10 @@ const Autocomplete = ({
       />
       <div role="listbox">
         {isListVisible &&
-          filteredData.map((item) => (
-            <option key={item} onMouseDown={() => handleItemClick(item)}>
-              {item}
-            </option>
+          filteredData?.map((item) => (
+            <li key={item} onMouseDown={() => handleItemClick(item)}>
+              <SearchMatchHighlight text={item} searchTerm={inputValue} />
+            </li>
           ))}
       </div>
     </section>

@@ -4,7 +4,6 @@ import { getFilteredData } from "../../api/api";
 type FilteredDataValues = {
   isLoading: boolean;
   filteredData: string[];
-  resetFilteredData: () => void;
 };
 
 const useGetFilteredData = (
@@ -34,13 +33,9 @@ const useGetFilteredData = (
       const data = await getFilteredData(criteria, sourceUrl);
       setFilteredData(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      throw new Error("Error fetching data from the source URL.");
     }
   }, [sourceUrl, criteria]);
-
-  const resetFilteredData = () => {
-    setFilteredData([]);
-  };
 
   useEffect(() => {
     if (criteria.length < minSearchLength) {
@@ -55,7 +50,7 @@ const useGetFilteredData = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criteria]);
 
-  return { isLoading, filteredData, resetFilteredData };
+  return { isLoading, filteredData };
 };
 
 export default useGetFilteredData;
