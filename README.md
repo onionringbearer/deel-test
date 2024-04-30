@@ -35,7 +35,7 @@ To achieve this, open another console and go to the `/autocomplete` folder. From
 
 The output of the last command will yield a localhost URL with a random port. You can use that to load the app in production mode.
 
-### Testing the loading message
+## Testing the loading message
 
 For this we need to simulate a slower connection. Using Chrome, open the Developer Tools and go to the Network tab.
 
