@@ -76,7 +76,7 @@ const Autocomplete = ({
           {isLoading && <i>{loadingText}</i>}
           {showNoDataText && <i>{noDataText}</i>}
           {filteredData?.map((item) => (
-            <li key={item} onClick={() => handleItemClick(item)}>
+            <li key={item} onMouseDown={() => handleItemClick(item)}>
               <SearchMatchHighlight text={item} searchTerm={inputValue} />
             </li>
           ))}
