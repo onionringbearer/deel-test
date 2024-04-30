@@ -29,11 +29,15 @@ const useGetFilteredData = (
   );
 
   const fetchData = useCallback(async () => {
+    setIsLoading(true);
     try {
       const data = await getFilteredData(criteria, sourceUrl);
       setFilteredData(data);
     } catch (error) {
-      throw new Error("Error fetching data from the source URL.");
+      console.error("Error fetching data", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
     }
   }, [sourceUrl, criteria]);
 
