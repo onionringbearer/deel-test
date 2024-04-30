@@ -1,96 +1,104 @@
+import { useState } from "react";
 import Autocomplete from "../../components/autocomplete";
-import ErrorBoundary from "../../layouts/error-boundary";
+import DemoArticle from "../../features/demo-article";
 import fruits from "../../mocks/fruits";
 
 import styles from "./demo-page.module.css";
 
 // Move to config file
 const demoFruitsUrl = "http://localhost:8080/fruits";
-const unexpectedErrorMessage =
-  "An unexpected error occurred. Please reload and try again.";
 
 const DemoPage = (): JSX.Element => {
+  const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
+
+  const handleViewErrorClick = () => {
+    setIsErrorVisible(true);
+  };
   return (
     <main className={styles.main}>
-      <ErrorBoundary message={unexpectedErrorMessage}>
-        <section>
-          <h1>Demo Page</h1>
-          <article>
-            <section>
-              <h3>Autocomplete from JSON Array</h3>
-              <p>Basic autocomplete demo with a JSON array as data source.</p>
-            </section>
+      <section className={styles.demos}>
+        <h1>Demo Page</h1>
+        {/* Autocomplete from JSON Array */}
+        <DemoArticle
+          title="Autocomplete from JSON Array"
+          description="Basic autocomplete demo with a JSON array as data source."
+        >
+          <Autocomplete
+            id="autocomplete"
+            data={fruits}
+            placeholder="Type to search for a fruit..."
+          />
+        </DemoArticle>
+
+        {/* Autocomplete from External Data Source */}
+        <DemoArticle
+          title="Autocomplete from External Data Source"
+          description="Basic autocomplete demo with an external data source, from a
+            locahost Node server, in this case."
+        >
+          <Autocomplete
+            id="autocomplete"
+            sourceUrl={demoFruitsUrl}
+            placeholder="Type to search for a fruit..."
+          />
+        </DemoArticle>
+
+        {/* Autocomplete with Minimum Required Input */}
+        <DemoArticle
+          title="Autocomplete with Minimum Required Input"
+          description="Basic autocomplete demo with minimum required input of 3
+            characters."
+        >
+          <Autocomplete
+            id="autocomplete"
+            data={fruits}
+            minSearchLength={3}
+            placeholder="Type to search for a fruit..."
+          />
+        </DemoArticle>
+
+        {/* Autocomplete with No Data */}
+        <DemoArticle
+          title="Autocomplete with No Data"
+          description="Basic autocomplete demo with no data available."
+        >
+          <Autocomplete id="autocomplete" data={[]} />
+        </DemoArticle>
+
+        {/* Autocomplete with API Error */}
+        <DemoArticle
+          title="Autocomplete with API Error"
+          description="Basic autocomplete demo with API error. 3 characters minimum."
+        >
+          <Autocomplete
+            id="autocomplete"
+            sourceUrl={"does/not/exist"}
+            minSearchLength={3}
+            placeholder="Type to search for a fruit..."
+          />
+        </DemoArticle>
+
+        {/* Autocomplete with Unexpected Error */}
+        <DemoArticle
+          title="Autocomplete with Unexpected Error"
+          description="Basic autocomplete demo with a JSON data source."
+          instructions="Requires running the app in production mode. Instructions in README.me."
+        >
+          {isErrorVisible ? (
             <Autocomplete
               id="autocomplete"
-              data={fruits}
-              placeholder="Type to search for a fruit..."
+              data={(() => {
+                throw new Error("Unexpected error");
+              })()}
             />
-          </article>
-          <article>
-            <section>
-              <h3>Autocomplete from External Data Source</h3>
-              <p>
-                Basic autocomplete demo with an external data source, from a
-                locahost Node server, in this case.
-              </p>
-            </section>
-            <Autocomplete
-              id="autocomplete"
-              sourceUrl={demoFruitsUrl}
-              placeholder="Type to search for a fruit..."
-            />
-          </article>
-          <article>
-            <section>
-              <h3>Autocomplete with Minimum Required Input</h3>
-              <p>
-                Basic autocomplete demo with minimum required input of 3
-                characters.
-              </p>
-            </section>
-            <Autocomplete
-              id="autocomplete"
-              data={fruits}
-              minSearchLength={3}
-              placeholder="Type to search for a fruit..."
-            />
-          </article>
-          <article>
-            <section>
-              <h3>Autocomplete with Unexpected Error</h3>
-              <p>Basic autocomplete demo with a JSON data source.</p>
-              <p>
-                Requires running the app in production mode. Instructions in
-                README.me.
-              </p>
-            </section>
-            <Autocomplete
-              id="autocomplete"
-              data={fruits}
-              placeholder="Type to search for a fruit..."
-              onChange={() => {
-                throw new Error(
-                  "This is an intentional error for testing purposes."
-                );
-              }}
-            />
-          </article>
-          <article>
-            <section>
-              <h3>Autocomplete with API Error</h3>
-              <p>
-                Basic autocomplete demo with API error. 3 characters minimum.
-              </p>
-            </section>
-            <Autocomplete
-              id="autocomplete"
-              sourceUrl={"does/not/exist"}
-              minSearchLength={3}
-              placeholder="Type to search for a fruit..."
-            />
-          </article>
-        </section>
-      </ErrorBoundary>
+          ) : (
+            <Autocomplete id="autocomplete" data={[]} />
+          )}
+          <button onClick={handleViewErrorClick}>
+            Click here to test error
+          </button>
+        </DemoArticle>
+      </section>
     </main>
   );
 };
