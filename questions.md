@@ -22,7 +22,7 @@ If the update process was stopped by the shouldUpdateComponent method, the conte
 
 # 5. What is a fragment and why do we need it? Give an example where it might break my app.
 
-A fragment is a React empty wrapper for components. Since React components must return one single element, a fragment can be to group several elements together to be returned by a single component. Fragments can cause styling issues when used loosely. Returning serveral group components when the host container has a given `display` set, may break the layout of the application.
+A fragment is a React empty wrapper for components. Since React components must return one single element, a fragment can be used to group several elements together to be returned by a single component. Fragments can cause styling issues when used loosely. Returning serveral group components when the host container has a given `display` set, may break the layout of the application.
 
 # 6. Give 3 examples of the HOC pattern.
 

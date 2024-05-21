@@ -1,5 +1,3 @@
-import React from "react";
-
 interface SearchMatchHighlightProps {
   text: string;
   searchTerm: string;

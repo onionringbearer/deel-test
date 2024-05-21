@@ -25,7 +25,7 @@ Go to the `/autocomplete` folder and run
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### Running the app in production mode
+## Running the app in production mode
 
 One of the scenarios shown would be best executed with the app in production mode.
 
@@ -43,5 +43,20 @@ At the very top of the tab, there should be a dropdown with 'No throttling' sele
 
 Use the second autocomplete in the demo page to test the loading message while waiting for a response.
 
-###
+## Potential Enhancements
+
+Besides adding unit and automation tests:
+
+### 1. WCAG Coverage
+
+The component is not navigable with the keyboard, nor are aria attributes in place.
+
+### 2. Better UX for loading with slow connections
+
+Unresolved HTTP calls need to be cancelled when a new input is provided so that unmatching data is never shown when the connection is slow.
+
+### 3. Forward component ref
+
+The component should be wrapped with the forwardRef function and expose a ref to the input and another to the options popover.
+
 _This app was created using Node v21.7.1 and npm v10.5.0._

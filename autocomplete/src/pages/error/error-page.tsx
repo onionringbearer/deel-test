@@ -4,7 +4,7 @@ const ErrorPage = (): JSX.Element => {
       <h1>Something spooky has happened</h1>
       <h4>
         This seems to be the result of an error, but I would not disregarded it
-        as unintentional. It could very well be planed... or not.
+        as unintentional. It could very well be planned... or not.
       </h4>
       <p>Please, reload and try again.</p>
     </main>
